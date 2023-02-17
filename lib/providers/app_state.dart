@@ -31,7 +31,6 @@ class AppState with ChangeNotifier {
         ? cache[cache.keys.length]
         : cache[cache.keys.length - 1];
 
-    print("PREVIOUS TASK ${task.toString()}\n");
     return task;
   }
 }

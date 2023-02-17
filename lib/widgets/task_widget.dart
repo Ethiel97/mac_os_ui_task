@@ -4,6 +4,7 @@ import 'package:mac_os_ui/constants.dart';
 
 import '../data/models/task.dart';
 
+//ignore:must_be_immutable
 class TaskWidget extends StatefulWidget {
   TaskWidget({
     Key? key,
