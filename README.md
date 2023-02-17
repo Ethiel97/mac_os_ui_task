@@ -1,4 +1,4 @@
-# MacOS ui tasks switcher
+# MacOS UI tasks switcher
 
 Flutter desktop app that mimics MacOS app switcher
 
