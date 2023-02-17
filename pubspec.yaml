@@ -38,8 +38,11 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  bounce_tap:
+  bounce_tap: ^1.0.2
+  provider:
+  widget_finder:
   google_fonts:
+  flutter_sequence_animation:
 
 dev_dependencies:
   flutter_test:

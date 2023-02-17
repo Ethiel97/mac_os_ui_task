@@ -9,6 +9,11 @@ class Task {
     required this.image,
     required this.icon,
   });
+
+  @override
+  String toString() {
+    return 'Task{image: $image, icon: $icon}';
+  }
 }
 
 List<Task> tasks = [

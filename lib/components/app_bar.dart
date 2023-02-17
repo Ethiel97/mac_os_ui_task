@@ -56,7 +56,7 @@ class _MyAppBarState extends State<MyAppBar>
           timer?.cancel();
         }
         /*else {*/
-        timer = Timer(const Duration(seconds: 10), () {
+        timer = Timer(const Duration(milliseconds: 1500), () {
           animationController.reverse();
         });
       },

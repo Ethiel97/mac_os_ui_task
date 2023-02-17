@@ -5,9 +5,21 @@ import 'package:mac_os_ui/constants.dart';
 import '../data/models/task.dart';
 
 class TaskWidget extends StatefulWidget {
-  const TaskWidget({Key? key, required this.task}) : super(key: key);
+  TaskWidget({
+    Key? key,
+    required this.task,
+    this.onTap,
+    this.canZoom = true,
+    this.showIcon = true,
+  }) : super(key: key);
 
   final Task task;
+
+  final bool canZoom;
+
+  final bool showIcon;
+
+  VoidCallback? onTap;
 
   @override
   State<TaskWidget> createState() => _TaskWidgetState();
@@ -36,24 +48,30 @@ class _TaskWidgetState extends State<TaskWidget>
   @override
   Widget build(BuildContext context) => MouseRegion(
         onEnter: (_) {
-          animationController.forward();
-          isHover = true;
+          if (widget.canZoom) {
+            animationController.forward();
+            isHover = true;
+          }
         },
         onExit: (_) {
-          animationController.reverse();
-          isHover = false;
+          if (widget.canZoom) {
+            animationController.reverse();
+            isHover = false;
+          }
         },
         child: BounceTap(
-          onTap: () {},
+          onTap: () {
+            if (widget.onTap != null) {
+              widget.onTap!();
+            }
+          },
           child: Stack(
             children: [
               Transform(
                 transform: Matrix4.identity()
-                  ..setEntry(3, 2, .001)
+                  ..setEntry(3, 2, .002)
                   ..scale(animation.value),
                 child: Container(
-                  height: 120,
-                  width: 200,
                   margin: const EdgeInsets.all(AppConstants.vPadding * 2),
                   decoration: BoxDecoration(
                     borderRadius:
@@ -68,7 +86,9 @@ class _TaskWidgetState extends State<TaskWidget>
               Positioned(
                 bottom: -4,
                 left: 12,
-                child: Container(
+                child: Offstage(
+                  offstage: !widget.showIcon,
+                  child: Container(
                     width: 45,
                     height: 45,
                     decoration: BoxDecoration(
@@ -78,8 +98,10 @@ class _TaskWidgetState extends State<TaskWidget>
                         fit: BoxFit.cover,
                         image: AssetImage(widget.task.icon),
                       ),
-                    )),
-              )
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

@@ -4,10 +4,14 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mac_os_ui/constants.dart';
 import 'package:mac_os_ui/data/models/task.dart';
+import 'package:mac_os_ui/providers/app_state.dart';
 import 'package:mac_os_ui/widgets/task_widget.dart';
+import 'package:provider/provider.dart';
 
 class TaskBar extends StatefulWidget {
-  const TaskBar({Key? key}) : super(key: key);
+  const TaskBar({Key? key, required this.onTaskSelected}) : super(key: key);
+
+  final Function(int) onTaskSelected;
 
   @override
   State<TaskBar> createState() => _TaskBarState();
@@ -48,14 +52,31 @@ class _TaskBarState extends State<TaskBar> with SingleTickerProviderStateMixin {
               width: 200,
               height: MediaQuery.of(context).size.height,
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: tasks
-                      .mapIndexed(
-                        (i, e) => Flexible(
-                          child: TaskWidget(task: tasks[i]),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: tasks
+                    .mapIndexed(
+                      (i, e) => Flexible(
+                        child: SizedBox(
+                          height: 140,
+                          width: 200,
+                          child: Consumer<AppState>(
+                            builder: (context, appState, _) => Container(
+                              key: appState.keys[i],
+                              child: TaskWidget(
+                                  task: tasks[i],
+                                  onTap: () {
+                                    context
+                                        .read<AppState>()
+                                        .setCurrentTask(tasks[i], i);
+                                    widget.onTaskSelected(i);
+                                  }),
+                            ),
+                          ),
                         ),
-                      )
-                      .toList()),
+                      ),
+                    )
+                    .toList(),
+              ),
             ),
           ),
         ),
